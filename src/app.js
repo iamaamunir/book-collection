@@ -1,4 +1,6 @@
-import express from 'express'
-const app = express()
+import express from "express";
+import { userRouter } from "./routes/user.route";
+const app = express();
 
-export default app
+app.use("/api/v1", userRouter);
+export default app;
