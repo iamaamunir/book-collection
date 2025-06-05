@@ -1,10 +1,12 @@
-import userModel from "../models/user";
+import userModel from "../models/user.js";
+import { AppError } from "../utils/appError.js";
+import { ZodError } from "zod";
 
 export async function signup(payload) {
   try {
     const user = await userModel.findOne({ email: payload.email });
     if (user) {
-      // throw error saying user alrwady exists
+      throw new AppError("User already exists", 409);
     }
 
     const userData = {
@@ -16,6 +18,12 @@ export async function signup(payload) {
     const newAccount = await userModel.create(userData);
     return newAccount;
   } catch (error) {
-    // handle zod errors and errors not instance of app error
+    // if (error instanceof ZodError) {
+
+    // }
+    if (!(error instanceof AppError)) {
+      throw new AppError("Internal server error", 500);
+    }
+    throw error;
   }
 }

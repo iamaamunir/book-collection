@@ -1,10 +1,9 @@
 import { signup } from "../services/user.service.js";
-import signup_validators from "../validators/user.validator";
+import signup_validators from "../validators/user.validator.js";
 
 export async function signup_controller(req, res, next) {
   try {
-    const body = req.body;
-    const validated_data = signup_validators.parse(body);
+    const validated_data = signup_validators.parse(req.body);
     const newAccount = await signup(validated_data);
     res.json({
       data: newAccount,
