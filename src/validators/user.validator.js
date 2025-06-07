@@ -5,6 +5,7 @@ const signup_validator = z.object({
   email: z
     .string({
       required_error: "Email is required",
+      unique: true,
       invalid_type_error: "Email must be a string with valid email format",
     })
     .email(),
