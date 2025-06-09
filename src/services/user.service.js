@@ -39,7 +39,7 @@ export async function login(payload) {
     if (!validPassword) {
       throw new AppError("Password incorrect", 403);
     }
-    const access_token = generateAccessToken(user._id, user.emai);
+    const access_token = generateAccessToken(user._id, user.email);
     const refresh_token = generateRefreshToken(user._id, user.email);
     return { access_token: access_token, refresh_token: refresh_token };
   } catch (error) {

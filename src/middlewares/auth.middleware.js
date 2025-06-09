@@ -1,15 +1,17 @@
-import { verifyToken } from "../utils/token";
-import { AppError } from "../utils/appError";
-import CONFIG from "../config/config";
+import { verifyToken } from "../utils/token.js";
+import { AppError } from "../utils/appError.js";
 
 export const authMiddleware = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split("")[0];
+    const token = req.headers?.authorization.split(" ")[1];
     if (!token) {
       throw new AppError("Missing token", 403);
     }
+
     const decoded = verifyToken(token);
+
     req.user = decoded;
+    next();
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
       console.log(error);
@@ -19,6 +21,6 @@ export const authMiddleware = (req, res, next) => {
       throw new AppError("Token Expired", 403);
     }
     console.error("Token verification failed:", error);
-    return error;
+    throw error;
   }
 };

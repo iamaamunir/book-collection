@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 dotenv.config();
 import CONFIG from "../config/config.js";
+import { AppError } from "./appError.js";
 
 export const generateAccessToken = (id, email) => {
   try {
@@ -33,7 +34,8 @@ export const generateRefreshToken = (id, email) => {
 
 export const verifyToken = (token) => {
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_SECRET);
+    const decoded = jwt.verify(token, CONFIG.ACCESS_SECRET);
+
     return decoded;
   } catch (error) {
     if (error.name === "JsonWebTokenError") {

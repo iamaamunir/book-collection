@@ -1,4 +1,5 @@
 import { ZodError } from "zod";
+import * as mongoose from "mongoose";
 export const errorMiddleware = (err, req, res, next) => {
   try {
     err.statusCode = err.statusCode || 500;
